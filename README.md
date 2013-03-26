@@ -7,4 +7,4 @@ Wordpress plugin for showing github user activity from a post or page.
 ```
 [github-activity user="eruonen" limit=5]
 ```
-Where `user` is the github login name whose activity list you wish to show and `limit` is the maximum number of lines you wish to show (max 30).
+Where `user` is the github login name whose activity list you wish to show and `limit` is the maximum number of lines you wish to show (up to 30).
