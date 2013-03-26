@@ -52,6 +52,9 @@ function build_activity_string( $activity ) {
 				get_branch_link( $activity['payload'], $activity['repo'] ),
 				get_repo_link( $activity['repo'] )
 			);
+			for ($i=count($activity['payload']['commits']) - 1; $i >= 0; $i--) { 
+				$activity_string .= '<br>' . get_commit_message($activity['payload']['commits'][$i], $activity['repo']);
+			}
 			break;
 
 		case 'FollowEvent':
@@ -80,6 +83,10 @@ function get_repo_link( $repo ) {
 function get_branch_link( $payload, $repo ) {
 	$branch = str_replace( 'refs/heads/', '', $payload['ref'] );
 	return '<a class="branch" href="https://github.com/' . $repo['name'] . '/tree/' . $branch . '">' . $branch . '</a>';
+}
+
+function get_commit_message($commit, $repo) {
+	return '<span class="commit_message"><a class="sha" href="https://github.com/' . $repo['name'] . '/commit/' . $commit['sha'] . '">' . substr($commit['sha'], 0, 7) . '</a> ' . $commit['message'] . '</span>';
 }
 
 add_shortcode( 'github_activity', 'get_github_user_activity' );
