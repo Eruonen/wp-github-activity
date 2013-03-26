@@ -25,7 +25,7 @@ function get_github_user_activity( $attributes ) {
 	if (isset($result['message']) && $result['message'] === 'Not Found')
 		return __('User not found.', 'github-activity');
 	
-	$html = '<ul>';
+	$html = '<ul class="github_activities">';
 	for ($i=0; $i < count($result) && $i < $limit; $i++) { 
 		$html .= '<li class="activity">' . build_activity_string($result[$i]) . '</li>';
 	}
