@@ -26,6 +26,10 @@ class GitHub_User_Activity_Shortcode {
 		'limit' => 5
 		), $attributes ) );
 
+		return $this->get_github_activity( $user, $limit );
+	}
+	
+	public function get_github_activity( $user, $limit ) {
 		// initialize curl and create the API link
 		$ch = curl_init( sprintf( $this->github_api_url, $user ) );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -114,4 +118,9 @@ class GitHub_User_Activity_Shortcode {
 	}
 }
 
-new GitHub_User_Activity_Shortcode();
+$github_user_activity = new GitHub_User_Activity_Shortcode();
+
+// template tag for developers
+function get_github_user_activity() {
+	$github_user_activity->
+}
