@@ -31,10 +31,11 @@ class WP_GitHub_Activity {
 	}
 	
 	public function get_github_activity( $user, $limit, $cache_timeout = 300 ) {
+		$cache_timeout = intval($cache_timeout);
 		// get cache
 		$transient = get_transient( 'wp-github-activity' );
 		// check whether the cache exists and the user is still the same
-		if ( $transient !== false && $transient['user'] === $user ) {
+		if ( $cache_timeout !== 0 && $transient !== false && $transient['user'] === $user ) {
 	    	$result = $transient['api_data'];
 		} else {
 			// initialize curl and create the API link
@@ -48,7 +49,8 @@ class WP_GitHub_Activity {
 			curl_close( $ch );
 
 			// set cache
-			set_transient('wp-github-activity', array( 'user' => $user, 'api_data' => $result ), $cache_timeout);
+			if($cache_timeout !== 0)
+				set_transient('wp-github-activity', array( 'user' => $user, 'api_data' => $result ), $cache_timeout);
 		}
 		// check whether the user exists or not
 		if ( isset( $result['message'] ) && $result['message'] === 'Not Found' )
