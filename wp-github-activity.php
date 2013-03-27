@@ -133,6 +133,6 @@ class WP_GitHub_Activity {
 $github_activity = new WP_GitHub_Activity();
 
 // template tag for developers
-function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache_timeout = 300 ) {
-	$github_activity->get_github_activity( $user, $limit );
+function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache = 300 ) {
+	$github_activity->get_github_activity( $user, $limit, $cache );
 }
