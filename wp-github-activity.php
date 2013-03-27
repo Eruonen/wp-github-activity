@@ -23,13 +23,14 @@ class WP_GitHub_Activity {
 		// extract the attributes into variables
 		extract( shortcode_atts( array(
 		'user'  => 'eruonen',
-		'limit' => 5
+		'limit' => 5,
+		'cache' => 300
 		), $attributes ) );
 
-		return $this->get_github_activity( $user, $limit );
+		return $this->get_github_activity( $user, $limit, $cache );
 	}
 	
-	public function get_github_activity( $user, $limit ) {
+	public function get_github_activity( $user, $limit, $cache_timeout = 300 ) {
 		// get cache
 		$transient = get_transient( 'wp-github-activity' );
 		// check whether the cache exists and the user is still the same
@@ -47,7 +48,7 @@ class WP_GitHub_Activity {
 			curl_close( $ch );
 
 			// set cache
-			set_transient('wp-github-activity', array( 'user' => $user, 'api_data' => $result ), 300);
+			set_transient('wp-github-activity', array( 'user' => $user, 'api_data' => $result ), $cache_timeout);
 		}
 		// check whether the user exists or not
 		if ( isset( $result['message'] ) && $result['message'] === 'Not Found' )
@@ -130,6 +131,6 @@ class WP_GitHub_Activity {
 $github_activity = new WP_GitHub_Activity();
 
 // template tag for developers
-function get_github_user_activity( $user, $limit ) {
+function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache_timeout = 300 ) {
 	$github_activity->get_github_activity( $user, $limit );
 }
