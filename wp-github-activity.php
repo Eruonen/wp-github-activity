@@ -1,15 +1,15 @@
 <?php
 /*
-Plugin Name:    GitHub User Activity Shortcode
-Plugin URI:     https://github.com/Eruonen/github-activity-shortcode
-Description:    This plugin allows Wordpress to show a GitHub user's activity feed from within a post or page using a shortcode.
+Plugin Name:    WP Github Activity
+Plugin URI:     https://github.com/Eruonen/wp-github-activity
+Description:    This plugin allows Wordpress to show a GitHub user's public activity feed
 Version:        1.0
 Author:         Nathaniel Williams
 Author URI:     http://coios.net/
 License:        MIT
 */
 
-class GitHub_User_Activity_Shortcode {
+class WP_GitHub_Activity {
 
 	private $debug;
 	protected $github_api_url = 'https://api.github.com/users/%s/events/public';
@@ -118,9 +118,9 @@ class GitHub_User_Activity_Shortcode {
 	}
 }
 
-$github_user_activity = new GitHub_User_Activity_Shortcode();
+$github_activity = new WP_GitHub_Activity();
 
 // template tag for developers
 function get_github_user_activity( $user, $limit ) {
-	$github_user_activity->get_github_activity( $user, $limit );
+	$github_activity->get_github_activity( $user, $limit );
 }
