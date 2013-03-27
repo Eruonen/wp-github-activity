@@ -30,16 +30,25 @@ class WP_GitHub_Activity {
 	}
 	
 	public function get_github_activity( $user, $limit ) {
-		// initialize curl and create the API link
-		$ch = curl_init( sprintf( $this->github_api_url, $user ) );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		// get cache
+		$transient = get_transient( 'wp-github-activity' );
+		// check whether the cache exists and the user is still the same
+		if ( $transient !== false && $transient['user'] === $user ) {
+	    	$result = $transient['api_data'];
+		} else {
+			// initialize curl and create the API link
+			$ch = curl_init( sprintf( $this->github_api_url, $user ) );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 
-		// execute the curl and decode the json result into an associative array
-		$result = json_decode( curl_exec($ch), true );
+			// execute the curl and decode the json result into an associative array
+			$result = json_decode( curl_exec($ch), true );
 
-		// close curl
-		curl_close( $ch );
+			// close curl
+			curl_close( $ch );
 
+			// set cache
+			set_transient('wp-github-activity', array( 'user' => $user, 'api_data' => $result ), 300);
+		}
 		// check whether the user exists or not
 		if ( isset( $result['message'] ) && $result['message'] === 'Not Found' )
 			return __( 'User not found.', 'github-activity' );
