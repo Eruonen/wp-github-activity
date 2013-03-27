@@ -23,7 +23,7 @@ get_github_user_activity( $user = 'eruonen', $limit = 5, $cache_timeout = 300 )
 Examples:
 ```php
 // shows the five most recent github user activities for user eruonen
-echo get_github_user_activity( 'eruonen');
+echo get_github_user_activity( 'eruonen' );
 // shows only the latest github user activity for user eruonen
 echo get_github_user_activity( 'eruonen', 1 );
 // shows only the latest github user activity for user eruonen without caching the results
