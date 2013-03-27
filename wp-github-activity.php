@@ -11,7 +11,7 @@ License:        MIT
 
 // load language files
 function wp_github_activity_load_languages() {
-  load_plugin_textdomain( 'wp-github-activity', dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+  load_plugin_textdomain( 'wp-github-activity', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action('init', 'wp_github_activity_load_languages');
 
