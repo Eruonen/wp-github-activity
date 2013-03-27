@@ -17,6 +17,7 @@ class WP_GitHub_Activity {
 	public function __construct( $debug = false ) {
 		$this->debug = $debug;
 		add_shortcode( 'github_activity', array( $this, 'shortcode' ) );
+		add_action( 'widgets_init', create_function( '', 'register_widget( "wp_github_activity_widget" );' ) );
 	}
 
 	public function shortcode( $attributes ) {
@@ -54,7 +55,7 @@ class WP_GitHub_Activity {
 		}
 		// check whether the user exists or not
 		if ( isset( $result['message'] ) && $result['message'] === 'Not Found' )
-			return __( 'User not found.', 'github-activity' );
+			return __( 'User not found.', 'wp-github-activity' );
 
 		// generate html and return it
 		return $this->generate_html( $result, $limit );
@@ -75,7 +76,7 @@ class WP_GitHub_Activity {
 		switch ( $activity['type'] ) {
 			case 'CreateEvent':
 				$activity_string = sprintf(
-					__( '%1$s created repository %2$s', 'github-activity' ),
+					__( '%1$s created repository %2$s', 'wp-github-activity' ),
 					$this->get_user_link( $activity['actor']['login'] ),
 					$this->get_repo_link( $activity['repo'] )
 				);
@@ -83,7 +84,7 @@ class WP_GitHub_Activity {
 
 			case 'PushEvent':
 				$activity_string = sprintf(
-					__('%1$s pushed to %2$s at %3$s', 'github-activity'),
+					__('%1$s pushed to %2$s at %3$s', 'wp-github-activity'),
 					$this->get_user_link( $activity['actor']['login'] ),
 					$this->get_branch_link( $activity['payload'], $activity['repo'] ),
 					$this->get_repo_link( $activity['repo'] )
@@ -95,7 +96,7 @@ class WP_GitHub_Activity {
 
 			case 'FollowEvent':
 				$activity_string = sprintf(
-					__( '%1$s started following %2$s', 'github-activity' ),
+					__( '%1$s started following %2$s', 'wp-github-activity' ),
 					$this->get_user_link( $activity['actor']['login'] ),
 					$this->get_user_link( $activity['payload']['target']['login'] ) 
 				);
@@ -103,7 +104,7 @@ class WP_GitHub_Activity {
 			
 			default:
 				if($this->debug) {
-					$activity_string = __( 'Unrecognized activity type', 'github-activity' ) . ': ' . $activity['type'];
+					$activity_string = __( 'Unrecognized activity type', 'wp-github-activity' ) . ': ' . $activity['type'];
 				} else {
 					$activity_string = '';
 				}
@@ -127,6 +128,69 @@ class WP_GitHub_Activity {
 
 	protected function get_commit_message( $commit, $repo ) {
 		return '<span class="commit_message"><a class="sha" href="https://github.com/' . $repo['name'] . '/commit/' . $commit['sha'] . '">' . substr($commit['sha'], 0, 7) . '</a> ' . $commit['message'] . '</span>';
+	}
+}
+
+class WP_Github_Activity_Widget extends WP_Widget {
+	private $wp_github_activity;
+
+	public function __construct() {
+		$this->wp_github_activity = new WP_GitHub_Activity();
+		parent::__construct(
+	 		'wp_github_activity_widget',
+			'Github Activity Widget',
+			array(
+				'description' => __( 'A widget for showing a user\'s public GitHub activity feed', 'wp-github-activity' ), 
+				'classname'   => 'wp_github_activity_widget',
+			)
+		);
+	}
+
+	public function widget( $args, $instance ) {
+		extract( $args );
+		$title = apply_filters( 'widget_title', $instance['title'] );
+		$user = $instance['user'];
+		$limit = $instance['limit'];
+		$cache = $instance['cache'];
+		echo $before_widget;
+		if ( ! empty( $title ) )
+			echo $before_title . $title . $after_title;
+		echo $this->wp_github_activity->get_github_activity( $user, $limit, $cache );
+		echo $after_widget;
+	}
+
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title']  =  strip_tags( $new_instance['title'] );
+		$instance['user']   =  strip_tags( $new_instance['user'] );
+		$instance['limit']  =  strip_tags( $new_instance['limit'] );
+		$instance['cache']  =  strip_tags( $new_instance['cache'] );
+		return $instance;
+	}
+
+	public function form( $instance ) {
+		$title  =  isset( $instance['title'] )  ?  $instance['title']  :  __( 'GitHub activity feed', 'wp-github-activity' );
+		$user   =  isset( $instance['user'] )   ?  $instance['user']   :  '';
+		$limit  =  isset( $instance['limit'] )  ?  $instance['limit']  :  5;
+		$cache  =  isset( $instance['cache'] )  ?  $instance['cache']  :  300;
+		?>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'wp-github-activity' ); ?>:</label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'user' ); ?>"><?php _e( 'User', 'wp-github-activity' ); ?>:</label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'user' ); ?>" name="<?php echo $this->get_field_name( 'user' ); ?>" type="text" value="<?php echo esc_attr( $user ); ?>" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit', 'wp-github-activity' ); ?>:</label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="text" value="<?php echo esc_attr( $limit ); ?>" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'cache' ); ?>"><?php _e( 'Cache (0 to disable cache)', 'wp-github-activity' ); ?>:</label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'cache' ); ?>" name="<?php echo $this->get_field_name( 'cache' ); ?>" type="text" value="<?php echo esc_attr( $cache ); ?>" />
+		</p>
+		<?php 
 	}
 }
 
