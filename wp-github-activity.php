@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name:    WP Github Activity
+Plugin Name:    WP GitHub Activity
 Plugin URI:     https://github.com/Eruonen/wp-github-activity
 Description:    This plugin allows Wordpress to show a GitHub user's public activity feed
 Version:        1.0
@@ -8,6 +8,12 @@ Author:         Nathaniel Williams
 Author URI:     http://coios.net/
 License:        MIT
 */
+
+// load language files
+function wp_github_activity_load_languages() {
+  load_plugin_textdomain( 'wp-github-activity', dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+add_action('init', 'wp_github_activity_load_languages');
 
 class WP_GitHub_Activity {
 
