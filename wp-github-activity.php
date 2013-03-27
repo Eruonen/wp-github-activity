@@ -121,6 +121,6 @@ class GitHub_User_Activity_Shortcode {
 $github_user_activity = new GitHub_User_Activity_Shortcode();
 
 // template tag for developers
-function get_github_user_activity() {
-	$github_user_activity->
+function get_github_user_activity( $user, $limit ) {
+	$github_user_activity->get_github_activity( $user, $limit );
 }
