@@ -1,7 +1,7 @@
 WP Github Activity
 ==================
 
-Wordpress plugin for showing github user activity from a post or page.
+Wordpress plugin for showing github user activity from a post, page, template or widget.
 
 ## Usage
 ### Shortcode
@@ -14,11 +14,11 @@ Wordpress plugin for showing github user activity from a post or page.
 
 ### Template tag
 ```php
-get_github_user_activity( $user = 'eruonen', $limit = 5, $cache_timeout = 300 )
+get_github_user_activity( $user = 'eruonen', $limit = 5, $cache = 300 )
 ```
 - `$user` The github login name whose activity list you wish to show
 - `$limit` The maximum number of lines you wish to show (up to 30)
-- `$cache_timeout` The number of seconds the api data should be cached (0 for no cache)
+- `$cache` The number of seconds the api data should be cached (0 for no cache)
 
 Examples:
 ```php
