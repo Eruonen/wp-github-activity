@@ -107,8 +107,17 @@ class WP_GitHub_Activity {
 					$this->get_user_link( $activity['payload']['target']['login'] ) 
 				);
 				break;
+
+			case 'WatchEvent':
+				$activity_string = sprintf(
+					__( '%1$s starred %2$s', 'wp-github-activity' ),
+					$this->get_user_link( $activity['actor']['login'] ),
+					$this->get_repo_link( $activity['repo'] )
+				);
+				break;
 			
 			default:
+				var_dump($activity)['type'];
 				if($this->debug) {
 					$activity_string = __( 'Unrecognized activity type', 'wp-github-activity' ) . ': ' . $activity['type'];
 				} else {
@@ -200,7 +209,7 @@ class WP_Github_Activity_Widget extends WP_Widget {
 	}
 }
 
-$github_activity = new WP_GitHub_Activity();
+$github_activity = new WP_GitHub_Activity(true);
 
 // template tag for developers
 function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache = 300 ) {
