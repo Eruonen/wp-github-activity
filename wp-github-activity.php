@@ -117,7 +117,6 @@ class WP_GitHub_Activity {
 				break;
 			
 			default:
-				var_dump($activity)['type'];
 				if($this->debug) {
 					$activity_string = __( 'Unrecognized activity type', 'wp-github-activity' ) . ': ' . $activity['type'];
 				} else {
@@ -209,7 +208,7 @@ class WP_Github_Activity_Widget extends WP_Widget {
 	}
 }
 
-$github_activity = new WP_GitHub_Activity(true);
+$github_activity = new WP_GitHub_Activity();
 
 // template tag for developers
 function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache = 300 ) {
