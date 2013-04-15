@@ -1,0 +1,90 @@
+# Copyright (C) 2013 WP GitHub Activity
+# This file is distributed under the same license as the WP GitHub Activity package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP GitHub Activity 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-github-activity\n"
+"POT-Creation-Date: 2013-04-15 15:24:32+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: wp-github-activity.php:64
+msgid "User not found."
+msgstr ""
+
+#: wp-github-activity.php:85
+msgid "%1$s created repository %2$s"
+msgstr ""
+
+#: wp-github-activity.php:93
+msgid "%1$s pushed to %2$s at %3$s"
+msgstr ""
+
+#: wp-github-activity.php:105
+msgid "%1$s started following %2$s"
+msgstr ""
+
+#: wp-github-activity.php:113
+msgid "%1$s starred %2$s"
+msgstr ""
+
+#: wp-github-activity.php:121
+msgid "%1$s forked %2$s to %3$s"
+msgstr ""
+
+#: wp-github-activity.php:130
+msgid "%1$s commented on %2$s"
+msgstr ""
+
+#: wp-github-activity.php:139
+msgid "Unrecognized activity type"
+msgstr ""
+
+#: wp-github-activity.php:183
+msgid "A widget for showing a user's public GitHub activity feed"
+msgstr ""
+
+#: wp-github-activity.php:212
+msgid "GitHub activity feed"
+msgstr ""
+
+#: wp-github-activity.php:218
+msgid "Title"
+msgstr ""
+
+#: wp-github-activity.php:222
+msgid "User"
+msgstr ""
+
+#: wp-github-activity.php:226
+msgid "Limit"
+msgstr ""
+
+#: wp-github-activity.php:230
+msgid "Cache (0 to disable cache)"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP GitHub Activity"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/Eruonen/wp-github-activity"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin allows Wordpress to show a GitHub user's public activity feed"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Nathaniel Williams"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://coios.net/"
+msgstr ""

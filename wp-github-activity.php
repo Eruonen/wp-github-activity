@@ -115,8 +115,26 @@ class WP_GitHub_Activity {
 					$this->get_repo_link( $activity['repo'] )
 				);
 				break;
+
+			case 'ForkEvent':
+				$activity_string = sprintf(
+					__( '%1$s forked %2$s to %3$s', 'wp-github-activity' ),
+					$this->get_user_link( $activity['actor']['login'] ),
+					$this->get_repo_link( $activity['repo'] ),
+					$this->get_forked_repo_link( $activity['payload']['forkee'] )
+				);
+				break;
+
+			case 'IssueCommentEvent':
+				$activity_string = sprintf(
+					__( '%1$s commented on %2$s', 'wp-github-activity' ),
+					$this->get_user_link( $activity['actor']['login'] ),
+					$this->get_issue_comment_link( $activity['payload']['issue'], $activity['repo'] )
+				);
+				break;
 			
 			default:
+				var_dump($activity);
 				if($this->debug) {
 					$activity_string = __( 'Unrecognized activity type', 'wp-github-activity' ) . ': ' . $activity['type'];
 				} else {
@@ -133,6 +151,14 @@ class WP_GitHub_Activity {
 
 	protected function get_repo_link( $repo ) {
 		return '<a class="repo" href="https://github.com/' . $repo['name'] . '">' . $repo['name'] . '</a>';
+	}
+
+	protected function get_forked_repo_link( $forkee ) {
+		return '<a class="repo" href="' . $forkee['html_url'] . '">' . $forkee['full_name'] . '</a>';
+	}
+
+	protected function get_issue_comment_link( $issue, $repo ) {
+		return '<a class="issue_comment" href="' . $issue['html_url'] . '">' . $repo['name'] . '#' . $issue['number'] . '</a>';
 	}
 
 	protected function get_branch_link( $payload, $repo ) {
@@ -208,7 +234,7 @@ class WP_Github_Activity_Widget extends WP_Widget {
 	}
 }
 
-$github_activity = new WP_GitHub_Activity();
+$github_activity = new WP_GitHub_Activity(true);
 
 // template tag for developers
 function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache = 300 ) {
