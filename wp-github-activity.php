@@ -48,10 +48,11 @@ class WP_GitHub_Activity {
 			// initialize curl and create the API link
 			$ch = curl_init( sprintf( $this->github_api_url, $user ) );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch, CURLOPT_USERAGENT, get_option('admin_email') );
+
 
 			// execute the curl and decode the json result into an associative array
 			$result = json_decode( curl_exec($ch), true );
-
 			// close curl
 			curl_close( $ch );
 
@@ -134,7 +135,6 @@ class WP_GitHub_Activity {
 				break;
 			
 			default:
-				var_dump($activity);
 				if($this->debug) {
 					$activity_string = __( 'Unrecognized activity type', 'wp-github-activity' ) . ': ' . $activity['type'];
 				} else {
