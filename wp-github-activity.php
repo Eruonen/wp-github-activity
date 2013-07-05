@@ -49,6 +49,7 @@ class WP_GitHub_Activity {
 			$ch = curl_init( sprintf( $this->github_api_url, $user ) );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 			curl_setopt( $ch, CURLOPT_USERAGENT, get_option('admin_email') );
+			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
 
 
 			// execute the curl and decode the json result into an associative array
