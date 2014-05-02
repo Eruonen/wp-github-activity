@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name:    WP GitHub Activity
-Plugin URI:     https://github.com/Eruonen/wp-github-activity
+Plugin URI:     https://github.com/AlphaH/wp-github-activity
 Description:    This plugin allows Wordpress to show a GitHub user's public activity feed
 Version:        1.0
 Author:         Nathaniel Williams
@@ -29,7 +29,7 @@ class WP_GitHub_Activity {
 	public function shortcode( $attributes ) {
 		// extract the attributes into variables
 		extract( shortcode_atts( array(
-		'user'  => 'eruonen',
+		'user'  => 'AlphaH',
 		'limit' => 5,
 		'cache' => 300
 		), $attributes ) );
@@ -238,6 +238,6 @@ class WP_Github_Activity_Widget extends WP_Widget {
 $github_activity = new WP_GitHub_Activity(true);
 
 // template tag for developers
-function get_github_user_activity( $user = 'eruonen', $limit = 5, $cache = 300 ) {
+function get_github_user_activity( $user = 'AlphaH', $limit = 5, $cache = 300 ) {
 	$github_activity->get_github_activity( $user, $limit, $cache );
 }
