@@ -13,7 +13,7 @@ Wordpress plugin for showing github user activity from a post, page, template or
 - `cache` The number of seconds the api data should be cached (0 for no cache). Default value: `300` (5 minutes)
 
 ### Widget
-Simply navigate to `/wp-admin/widgets.php` to use the widget!
+Simply navigate to `http://yoursite.com/wp-admin/widgets.php` to set up the widget!
 
 ### Template tag
 ```php
